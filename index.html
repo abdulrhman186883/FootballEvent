@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="Database.js"></script>
+  <script src="scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Use the same version for Firebase modules -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANgqyhRSd3damo7ByL7xMAiD6IX_uDKjM&libraries=places" defer></script>
+  <title>Football Game Planning</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Weimar City Football Planning</h1>
+    <button id="createEventBtn" onclick="handleCreateEvent()">
+      Create Event
+    </button>
+
+    <!-- Modal -->
+    <div id="eventModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Event Details</h2>
+        <form id="eventForm" onsubmit="submitEvent(event)">
+          <label for="location">Location:</label>
+          <input type="text" id="location" name="location" required />
+
+          <label for="time">Time:</label>
+          <input
+            type="datetime-local"
+            id="time"
+            name="time"
+            required
+            min="<?php echo date('Y-m-d\TH:i'); ?>"
+           />
+
+
+          <label for="creator">Created By:</label>
+          <input type="text" id="creator" name="creator" required />
+
+          <button type="submit" id="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add this participantsList popup -->
+
+
+    <!-- Event Display -->
+    <div id="eventDisplay" class="event-display"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Football Game Planning BY ZIKA 💞. All rights reserved.</p>
+  </footer>
+
+  <script type="module">
+    import {
+      handleFirebaseSubmit,
+      fetchAndDisplayEvents,
+      joinEvent,
+      viewParticipants,
+    } from "./Database.js";
+
+    document.addEventListener("DOMContentLoaded", function () {
+      handleFirebaseSubmit();
+      fetchAndDisplayEvents();
+      initializeAutocomplete();
+
+      // Add event listener for the dynamically created join buttons
+      document.getElementById("eventDisplay").addEventListener("click", function (e) {
+        if (e.target.classList.contains("join-button")) {
+          const key = e.target.dataset.key;
+          joinEvent(key);
+        } else if (e.target.classList.contains("view-participants-button")) {
+          const key = e.target.dataset.key;
+          viewParticipants(key);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
