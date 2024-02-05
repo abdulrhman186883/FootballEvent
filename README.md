@@ -21,5 +21,5 @@ To get started with the Soccer Event Planner, follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/abdulrhman186883/SoccerEvent.git
+   git clone https://abdulrhman186883.github.io/FootballEvent/
    cd SoccerEvent
